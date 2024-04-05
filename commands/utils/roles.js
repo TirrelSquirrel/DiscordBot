@@ -6,42 +6,42 @@ const {
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("reaction-roles")
+    .setName("reactionrole")
     .setDescription("Manage your reaction roles system")
-    .addSubcommand((command) =>
+    .addSubcommand(command =>
       command
         .setName("add")
         .setDescription("Add reaction roles")
-        .addStringOption((option) =>
+        .addStringOption(option =>
           option
             .setName("message-id")
             .setDescription("The message to react to")
             .setRequired(true)
         )
-        .addStringOption((option) =>
+        .addStringOption(option =>
           option
             .setName("emoji")
             .setDescription("Emoji to react")
             .setRequired(true)
         )
-        .addRoleOption((option) =>
+        .addRoleOption(option =>
           option
             .setName("role")
             .setDescription("The role you want to get")
             .setRequired(true)
         )
     )
-    .addSubcommand((command) =>
+    .addSubcommand(command =>
       command
         .setName("remove")
         .setDescription("Remove reaction roles")
-        .addStringOption((option) =>
+        .addStringOption(option =>
           option
             .setName("message-id")
             .setDescription("The message to react to")
             .setRequired(true)
         )
-        .addStringOption((option) =>
+        .addStringOption(option =>
           option
             .setName("emoji")
             .setDescription("Emoji to react")
