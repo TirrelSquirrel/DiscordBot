@@ -14,7 +14,9 @@ const commandFolders = fs.readdirSync(foldersPath);
 
 for (const folder of commandFolders) {
   const commandsPath = path.join(foldersPath, folder);
-  const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+  const commandFiles = fs
+    .readdirSync(commandsPath)
+    .filter((file) => file.endsWith(".js"));
   for (const file of commandFiles) {
     const filePath = path.join(commandsPath, file);
     const command = require(filePath);
@@ -27,7 +29,6 @@ for (const folder of commandFolders) {
       );
     }
   }
-  
 }
 
 client.on(Events.InteractionCreate, async (interaction) => {
@@ -55,6 +56,33 @@ client.on(Events.InteractionCreate, async (interaction) => {
         ephemeral: true,
       });
     }
+  }
+});
+
+//reactio  roles
+
+client.on(Events.MessageReactionAdd, async (reaction, user) => {
+  if (!reaction.message.guildId) return;
+  if (user.bot) return;
+
+  let cID = `<:${reaction.emoji.name}:${reaction.emoji.id}>`;
+  if (!reaction.emoji.id) cID = reaction.emoji.name;
+
+  const data = await reactions.findOne({
+    Guild: reaction.message.guildId,
+    Message: reaction.message.id,
+    Emoji: cID,
+  });
+
+  if (!data) return;
+
+  const guild = await client.guilds.cache.get(reaction.message.guildId);
+  const member = await guild.members.cache.get(user.id);
+
+  try {
+    await member.roles.add(data.Role);
+  } catch (e) {
+    return;
   }
 });
 
