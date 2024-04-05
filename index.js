@@ -60,7 +60,6 @@ client.on(Events.InteractionCreate, async (interaction) => {
 });
 
 //reactio  roles
-
 client.on(Events.MessageReactionAdd, async (reaction, user) => {
   if (!reaction.message.guildId) return;
   if (user.bot) return;

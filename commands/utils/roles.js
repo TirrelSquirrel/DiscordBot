@@ -6,8 +6,9 @@ const {
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("reactionrole")
+    .setName("roles")
     .setDescription("Manage your reaction roles system")
+    .addUserOption(option => option.setName('target').setDescription('The target user'))
     .addSubcommand(command =>
       command
         .setName("add")
@@ -131,6 +132,11 @@ module.exports = {
 
           await interaction.reply({ embed: [embed], ephemeral: true });
         }
+        break;
+        
+        default:
+
+        break;
     }
   },
 };
