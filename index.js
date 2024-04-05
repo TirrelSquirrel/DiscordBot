@@ -86,6 +86,31 @@ client.on(Events.MessageReactionAdd, async (reaction, user) => {
   }
 });
 
+client.on(Events.MessageReactionRemove, async (reaction, user) => {
+  if (!reaction.message.guildId) return;
+  if (user.bot) return;
+
+  let cID = `<:${reaction.emoji.name}:${reaction.emoji.id}>`;
+  if (!reaction.emoji.id) cID = reaction.emoji.name;
+
+  const data = await reactions.findOne({
+    Guild: reaction.message.guildId,
+    Message: reaction.message.id,
+    Emoji: cID,
+  });
+
+  if (!data) return;
+
+  const guild = await client.guilds.cache.get(reaction.message.guildId);
+  const member = await guild.members.cache.get(user.id);
+
+  try {
+    await member.roles.remove(data.Role);
+  } catch (e) {
+    return;
+  }
+});
+
 // When the client is ready, run this code (only once)
 // We use 'c' for the event parameter to keep it separate from the already defined 'client'
 client.once(Events.ClientReady, (c) => {
